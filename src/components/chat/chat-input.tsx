@@ -60,11 +60,11 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
   };
 
   return (
-    <div className="border-t border-border bg-card/50 backdrop-blur-sm p-6">
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
+    <div className="border-t border-border bg-card/50 backdrop-blur-sm p-4 sm:p-6">
+      <form onSubmit={handleSubmit} className="max-w-chat mx-auto">
         <div
           ref={containerRef}
-          className="relative flex h-14 border border-input rounded-xl bg-background focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all duration-200"
+          className="relative flex min-h-[56px] border border-input rounded-xl bg-background focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent transition-all duration-200"
         >
           <textarea
             ref={textareaRef}
@@ -74,23 +74,22 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
             placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)"
             disabled={isLoading}
             rows={1}
-            className="flex-1 px-4 py-3 pr-16 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 resize-none transition-all duration-200"
+            className="flex-1 px-4 py-3 pr-20 sm:pr-16 bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none disabled:opacity-50 resize-none transition-all duration-200 overflow-hidden"
             style={{
-              overflow: "hidden",
               lineHeight: "1.5",
               height: "38px",
             }}
           />
 
           {/* Character count indicator */}
-          <div className="absolute bottom-2 right-16 text-xs text-muted-foreground">
+          <div className="absolute bottom-2 right-16 sm:right-16 text-xs text-muted-foreground hidden sm:block">
             {input.length}
           </div>
 
           <button
             type="submit"
             disabled={!input.trim() || isLoading}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center group"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-gradient-to-br from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center group flex-shrink-0"
           >
             {isLoading ? (
               <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
@@ -102,18 +101,21 @@ export function ChatInput({ onSendMessage, isLoading }: ChatInputProps) {
 
         {/* Quick actions */}
         <div className="flex items-center justify-between mt-3 text-xs text-muted-foreground">
-          <div className="flex gap-4">
-            <span>Tip: Use Shift+Enter for new lines</span>
+          <div className="flex gap-4 min-w-0 flex-1">
+            <span className="hidden sm:inline">
+              Tip: Use Shift+Enter for new lines
+            </span>
+            <span className="sm:hidden">Tip: Shift+Enter for new lines</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-shrink-0">
             <span
-              className={`px-2 py-1 rounded-full ${
+              className={`px-2 py-1 rounded-full text-xs ${
                 isLoading
                   ? "bg-warning/20 text-warning"
                   : "bg-success/20 text-success"
               }`}
             >
-              {isLoading ? "AI is thinking..." : "Ready to send"}
+              {isLoading ? "Thinking..." : "Ready"}
             </span>
           </div>
         </div>

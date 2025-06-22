@@ -89,7 +89,63 @@ module.exports = {
           "100%": { transform: "translateY(0)" },
         },
       },
+      maxWidth: {
+        message: "65ch",
+        chat: "4xl",
+      },
+      width: {
+        message: "calc(100% - 4rem)",
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".glass-effect": {
+          "backdrop-filter": "blur(12px)",
+          background: "rgba(255, 255, 255, 0.1)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
+          ".dark &": {
+            background: "rgba(0, 0, 0, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.1)",
+          },
+        },
+        ".gradient-text": {
+          background:
+            "linear-gradient(to right, rgb(var(--primary)), rgb(var(--accent)))",
+          "background-clip": "text",
+          color: "transparent",
+        },
+        ".message-shadow": {
+          "box-shadow": "0 4px 12px rgba(147, 51, 234, 0.1)",
+          ".dark &": {
+            "box-shadow": "0 4px 12px rgba(168, 85, 247, 0.2)",
+          },
+        },
+        ".code-block-container": {
+          "border-radius": "0.5rem",
+          border: "1px solid rgb(var(--border))",
+          overflow: "hidden",
+          background: "#000000",
+        },
+        ".code-block": {
+          "font-family": '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+          "overflow-x": "auto",
+          background: "#000000",
+          color: "#f1f5f9",
+        },
+        ".inline-code": {
+          "font-family": '"Monaco", "Menlo", "Ubuntu Mono", monospace',
+          background: "rgba(var(--muted), 0.6)",
+          border: "1px solid rgb(var(--border))",
+          ".dark &": {
+            background: "rgba(71, 85, 105, 0.6)",
+            border: "1px solid rgb(71, 85, 105)",
+          },
+        },
+      };
+
+      addUtilities(newUtilities);
+    },
+  ],
 };

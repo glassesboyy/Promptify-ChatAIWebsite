@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { ThemeToggle } from "./theme-toggle";
-import { ModelSelector } from "./model-selector";
-import { getDefaultModel } from "@/lib/models";
 import {
-  HiPlus,
   HiChatBubbleLeft,
-  HiStar,
   HiCog6Tooth,
+  HiPlus,
+  HiStar,
   HiXMark,
 } from "react-icons/hi2";
+import { ModelSelector } from "./model-selector";
+import { ThemeToggle } from "./theme-toggle";
 
 interface SidebarProps {
   onNewChat?: () => void;
@@ -119,6 +118,9 @@ export function Sidebar({
       <div className="p-4 border-t border-sidebar-border">
         <div className="text-xs text-muted-foreground text-center">
           <p>Powered by OpenRouter API</p>
+          <p className="mt-1">
+            Made with ♡ by <strong>Glassesboyy</strong>
+          </p>
           <p className="mt-1">© 2025 Promptify</p>
         </div>
       </div>

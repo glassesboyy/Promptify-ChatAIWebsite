@@ -99,19 +99,34 @@
 }
 
 @layer components {
-  .glass-effect {
-    @apply backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10;
+  .formatted-content {
+    @apply leading-relaxed overflow-hidden;
   }
 
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  .formatted-content strong {
+    @apply font-semibold;
   }
 
-  .message-shadow {
-    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.1);
+  .formatted-content br {
+    @apply block;
+    content: "";
+    margin-top: 0.5rem;
   }
 
-  .dark .message-shadow {
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+  /* Word breaking utilities */
+  .word-break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
+@layer utilities {
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere;
+  }
+
+  .word-break-break-all {
+    word-break: break-all;
   }
 }

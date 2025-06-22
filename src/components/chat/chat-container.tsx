@@ -92,48 +92,48 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="border-b border-border bg-card/30 backdrop-blur-sm px-6 py-4">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
-          <div>
-            <h1 className="text-xl font-bold gradient-text">
+      <div className="border-b border-border bg-card/30 backdrop-blur-sm px-4 sm:px-6 py-4">
+        <div className="flex items-center justify-between max-w-chat mx-auto">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-lg sm:text-xl font-bold gradient-text truncate">
               AI Chat Assistant
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground truncate">
               Currently using:{" "}
               <span className="font-medium">{selectedModel?.name}</span>
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={clearChat}
-              className="px-4 py-2 text-sm bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
+              className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
             >
               <HiTrash className="w-4 h-4" />
-              Clear Chat
+              <span className="hidden sm:inline">Clear Chat</span>
             </button>
           </div>
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="max-w-chat mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full">
           {messages.length === 0 && (
-            <div className="text-center py-16 animate-fade-in">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                <HiChatBubbleBottomCenter className="w-8 h-8 text-white" />
+            <div className="text-center py-12 sm:py-16 animate-fade-in">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                <HiChatBubbleBottomCenter className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h2 className="text-2xl font-bold gradient-text mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold gradient-text mb-3">
                 Welcome to Promptify!
               </h2>
-              <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+              <p className="text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base px-4">
                 Start a conversation with our AI assistant. Ask questions, get
                 help with coding, or just chat about anything!
               </p>
 
               {/* Quick start suggestions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto px-4">
                 <div className="p-4 border border-border rounded-xl bg-card hover:bg-accent/50 transition-colors cursor-pointer">
                   <h3 className="font-medium mb-2">💡 Get Ideas</h3>
                   <p className="text-sm text-muted-foreground">
@@ -150,9 +150,11 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
             </div>
           )}
 
-          {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
-          ))}
+          <div className="space-y-6">
+            {messages.map((message) => (
+              <MessageBubble key={message.id} message={message} />
+            ))}
+          </div>
 
           {isLoading && <LoadingIndicator />}
           <div ref={messagesEndRef} />
