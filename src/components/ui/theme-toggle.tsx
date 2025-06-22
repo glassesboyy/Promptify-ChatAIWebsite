@@ -6,7 +6,6 @@ export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check if there's a saved theme preference
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
       "(prefers-color-scheme: dark)"
@@ -32,17 +31,13 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative inline-flex items-center justify-center w-12 h-6 bg-secondary rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+      className="relative inline-flex items-center justify-center w-10 h-10 rounded-lg bg-sidebar-accent hover:bg-sidebar-accent/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group"
       aria-label="Toggle theme"
     >
-      <span
-        className={`absolute top-0.5 w-5 h-5 bg-primary rounded-full transition-transform duration-300 flex items-center justify-center ${
-          isDark ? "translate-x-6 left-0.5" : "translate-x-0 left-0.5"
-        }`}
-      >
+      <div className="relative w-5 h-5">
         {isDark ? (
           <svg
-            className="w-3 h-3 text-primary-foreground"
+            className="w-5 h-5 text-sidebar-accent-foreground transition-transform duration-300 group-hover:rotate-12"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -50,7 +45,7 @@ export function ThemeToggle() {
           </svg>
         ) : (
           <svg
-            className="w-3 h-3 text-primary-foreground"
+            className="w-5 h-5 text-sidebar-accent-foreground transition-transform duration-300 group-hover:rotate-12"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -61,7 +56,7 @@ export function ThemeToggle() {
             />
           </svg>
         )}
-      </span>
+      </div>
     </button>
   );
 }
