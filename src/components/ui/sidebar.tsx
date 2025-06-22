@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { ThemeToggle } from "./theme-toggle";
+import { ModelSelector } from "./model-selector";
+import { getDefaultModel } from "@/lib/models";
 import {
   HiPlus,
   HiChatBubbleLeft,
@@ -12,9 +14,15 @@ import {
 
 interface SidebarProps {
   onNewChat?: () => void;
+  selectedModelId: string;
+  onModelChange: (modelId: string) => void;
 }
 
-export function Sidebar({ onNewChat }: SidebarProps) {
+export function Sidebar({
+  onNewChat,
+  selectedModelId,
+  onModelChange,
+}: SidebarProps) {
   const [chatHistory] = useState([
     { id: 1, title: "Chat about React", timestamp: "2 hours ago" },
     { id: 2, title: "API Integration Help", timestamp: "Yesterday" },
@@ -31,11 +39,22 @@ export function Sidebar({ onNewChat }: SidebarProps) {
         </div>
         <button
           onClick={onNewChat}
-          className="w-full bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 group"
+          className="w-full bg-sidebar-primary hover:bg-sidebar-primary/90 text-sidebar-primary-foreground px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2 group mb-4"
         >
           <HiPlus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
           New Chat
         </button>
+
+        {/* Model Selector */}
+        <div className="space-y-2">
+          <label className="text-xs font-medium text-sidebar-foreground">
+            AI Model
+          </label>
+          <ModelSelector
+            selectedModelId={selectedModelId}
+            onModelChange={onModelChange}
+          />
+        </div>
       </div>
 
       {/* Navigation */}

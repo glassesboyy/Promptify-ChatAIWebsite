@@ -1,19 +1,30 @@
 import type { ChatMessage } from "@/types/chat";
+import { getModelById, getDefaultModel } from "./models";
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
-  defaultHeaders: {
-    "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-    "X-Title": process.env.NEXT_PUBLIC_SITE_NAME || "Promptify Chat AI",
-  },
-});
-
-export async function sendMessage(messages: ChatMessage[]): Promise<string> {
+export async function sendMessage(
+  messages: ChatMessage[],
+  modelId?: string
+): Promise<string> {
   try {
+    const selectedModel = modelId ? getModelById(modelId) : getDefaultModel();
+
+    if (!selectedModel) {
+      throw new Error("Invalid model selected");
+    }
+
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1",
+      apiKey: selectedModel.apiKey,
+      defaultHeaders: {
+        "HTTP-Referer":
+          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+        "X-Title": process.env.NEXT_PUBLIC_SITE_NAME || "Promptify Chat AI",
+      },
+    });
+
     const completion = await openai.chat.completions.create({
-      model: "deepseek/deepseek-chat-v3-0324:free",
+      model: selectedModel.provider,
       messages:
         messages as OpenAI.Chat.Completions.ChatCompletionMessageParam[],
     });

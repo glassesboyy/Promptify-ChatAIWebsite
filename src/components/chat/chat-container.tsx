@@ -5,12 +5,19 @@ import { Message, ChatMessage } from "@/types/chat";
 import { MessageBubble } from "./message-bubble";
 import { ChatInput } from "./chat-input";
 import { LoadingIndicator } from "./loading-indicator";
+import { getModelById } from "@/lib/models";
 import { HiTrash, HiChatBubbleBottomCenter } from "react-icons/hi2";
 
-export function ChatContainer() {
+interface ChatContainerProps {
+  selectedModelId: string;
+}
+
+export function ChatContainer({ selectedModelId }: ChatContainerProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const selectedModel = getModelById(selectedModelId);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -46,6 +53,7 @@ export function ChatContainer() {
         },
         body: JSON.stringify({
           messages: chatMessages,
+          modelId: selectedModelId,
         }),
       });
 
@@ -91,7 +99,8 @@ export function ChatContainer() {
               AI Chat Assistant
             </h1>
             <p className="text-sm text-muted-foreground">
-              Intelligent conversations powered by advanced AI
+              Currently using:{" "}
+              <span className="font-medium">{selectedModel?.name}</span>
             </p>
           </div>
 

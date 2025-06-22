@@ -10,10 +10,20 @@ export interface ChatMessage {
   content: string;
 }
 
+export interface AIModel {
+  id: string;
+  name: string;
+  description: string;
+  provider: string;
+  apiKey: string;
+  isFree: boolean;
+}
+
 export interface ChatSession {
   id: string;
   title: string;
   messages: Message[];
+  modelId: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,6 +31,7 @@ export interface ChatSession {
 export interface ChatCompletionRequest {
   model: string;
   messages: ChatMessage[];
+  modelId?: string;
 }
 
 export interface ChatCompletionResponse {

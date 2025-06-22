@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
 import { sendMessage } from "@/lib/openrouter";
 import type { ChatMessage } from "@/types/chat";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { messages }: { messages: ChatMessage[] } = await request.json();
+    const { messages, modelId }: { messages: ChatMessage[], modelId?: string } = await request.json();
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const response = await sendMessage(messages);
+    const response = await sendMessage(messages, modelId);
 
     return NextResponse.json({ message: response });
   } catch (error) {
