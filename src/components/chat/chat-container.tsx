@@ -5,6 +5,7 @@ import { Message, ChatMessage } from "@/types/chat";
 import { MessageBubble } from "./message-bubble";
 import { ChatInput } from "./chat-input";
 import { LoadingIndicator } from "./loading-indicator";
+import { HiTrash, HiChatBubbleBottomCenter } from "react-icons/hi2";
 
 export function ChatContainer() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -99,19 +100,7 @@ export function ChatContainer() {
               onClick={clearChat}
               className="px-4 py-2 text-sm bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
+              <HiTrash className="w-4 h-4" />
               Clear Chat
             </button>
           </div>
@@ -124,19 +113,7 @@ export function ChatContainer() {
           {messages.length === 0 && (
             <div className="text-center py-16 animate-fade-in">
               <div className="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg
-                  className="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03 8 9-8s9 3.582 9 8z"
-                  />
-                </svg>
+                <HiChatBubbleBottomCenter className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-2xl font-bold gradient-text mb-3">
                 Welcome to Promptify!

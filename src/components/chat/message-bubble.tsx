@@ -1,4 +1,5 @@
 import { Message } from "@/types/chat";
+import { HiUser } from "react-icons/hi2";
 
 interface MessageBubbleProps {
   message: Message;
@@ -16,17 +17,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       <div className="flex items-start gap-3 max-w-[80%]">
         {!isUser && (
           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-white"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <HiUser className="w-4 h-4 text-white" />
           </div>
         )}
 
@@ -57,17 +48,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
         {isUser && (
           <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-accent to-primary flex items-center justify-center">
-            <svg
-              className="w-4 h-4 text-white"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <HiUser className="w-4 h-4 text-white" />
           </div>
         )}
       </div>
