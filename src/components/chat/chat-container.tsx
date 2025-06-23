@@ -1,5 +1,6 @@
 "use client";
 
+import { useChatSessions } from "@/hooks/use-chat-sessions";
 import { getModelById } from "@/lib/models";
 import { ChatMessage, Message } from "@/types/chat";
 import { useEffect, useRef, useState } from "react";
@@ -10,14 +11,29 @@ import { MessageBubble } from "./message-bubble";
 
 interface ChatContainerProps {
   selectedModelId: string;
+  onNewChat?: () => void;
 }
 
-export function ChatContainer({ selectedModelId }: ChatContainerProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+export function ChatContainer({
+  selectedModelId,
+  onNewChat,
+}: ChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const {
+    sessions,
+    currentSessionId,
+    isLoaded,
+    createSession,
+    addMessageToSession,
+    getCurrentSession,
+    clearAllSessions,
+  } = useChatSessions();
+
   const selectedModel = getModelById(selectedModelId);
+  const currentSession = getCurrentSession();
+  const messages = currentSession?.messages || [];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,7 +43,21 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
     scrollToBottom();
   }, [messages, isLoading]);
 
+  // Create initial session if none exists
+  useEffect(() => {
+    if (isLoaded && !currentSessionId) {
+      createSession(selectedModelId);
+    }
+  }, [isLoaded, currentSessionId, selectedModelId, createSession]);
+
   const sendMessage = async (content: string) => {
+    // Ensure we have a current session
+    let sessionId = currentSessionId;
+    if (!sessionId) {
+      const newSession = createSession(selectedModelId);
+      sessionId = newSession.id;
+    }
+
     const userMessage: Message = {
       id: Date.now().toString(),
       role: "user",
@@ -35,7 +65,7 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    addMessageToSession(sessionId, userMessage);
     setIsLoading(true);
 
     try {
@@ -70,7 +100,7 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
         timestamp: new Date(),
       };
 
-      setMessages((prev) => [...prev, aiMessage]);
+      addMessageToSession(sessionId, aiMessage);
     } catch (error) {
       console.error("Error sending message:", error);
       const errorMessage: Message = {
@@ -79,14 +109,18 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
         content: "Sorry, I encountered an error. Please try again.",
         timestamp: new Date(),
       };
-      setMessages((prev) => [...prev, errorMessage]);
+      addMessageToSession(sessionId, errorMessage);
     } finally {
       setIsLoading(false);
     }
   };
 
   const clearChat = () => {
-    setMessages([]);
+    if (currentSessionId) {
+      // Create new session instead of clearing current one
+      const newSession = createSession(selectedModelId);
+      onNewChat?.();
+    }
   };
 
   return (
@@ -110,7 +144,7 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
               className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
             >
               <HiTrash className="w-4 h-4" />
-              <span className="hidden sm:inline">Clear Chat</span>
+              <span className="hidden sm:inline">New Chat</span>
             </button>
           </div>
         </div>

@@ -7,10 +7,11 @@ import { getDefaultModel } from "@/lib/models";
 
 export default function Home() {
   const [selectedModelId, setSelectedModelId] = useState(getDefaultModel().id);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleNewChat = () => {
-    // This will be handled by the ChatContainer component
-    window.location.reload();
+    // Force re-render to show new chat
+    setRefreshKey((prev) => prev + 1);
   };
 
   const handleModelChange = (modelId: string) => {
@@ -25,7 +26,11 @@ export default function Home() {
         onModelChange={handleModelChange}
       />
       <div className="flex-1 overflow-hidden">
-        <ChatContainer selectedModelId={selectedModelId} />
+        <ChatContainer
+          key={refreshKey}
+          selectedModelId={selectedModelId}
+          onNewChat={handleNewChat}
+        />
       </div>
     </div>
   );
