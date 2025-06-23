@@ -96,6 +96,11 @@ module.exports = {
       width: {
         message: "calc(100% - 4rem)",
       },
+      fontSize: {
+        xxxxs: ["0.5rem", { lineHeight: "0.75rem" }], // 8px
+        xxxs: ["0.625rem", { lineHeight: "0.875rem" }], // 10px
+        xxs: ["0.6875rem", { lineHeight: "1rem" }], // 11px
+      },
     },
   },
   plugins: [

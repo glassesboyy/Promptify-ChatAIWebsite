@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { AVAILABLE_MODELS } from "@/lib/models";
-import type { AIModel } from "@/types/chat";
-import { HiChevronDown, HiCpuChip, HiCheckCircle } from "react-icons/hi2";
+import { useState } from "react";
+import { HiChevronDown, HiCpuChip } from "react-icons/hi2";
 
 interface ModelSelectorProps {
   selectedModelId: string;
@@ -33,15 +32,15 @@ export function ModelSelector({
         <div className="flex items-center gap-2">
           <HiCpuChip className="w-4 h-4" />
           <div className="text-left">
-            <div className="text-sm font-medium">{selectedModel?.name}</div>
-            <div className="text-xs text-muted-foreground">
+            <div className="text-xs font-medium">{selectedModel?.name}</div>
+            <div className="text-xxxs text-muted-foreground">
               {selectedModel?.isFree && "Free"} •{" "}
               {selectedModel?.provider.split("/")[0]}
             </div>
           </div>
         </div>
         <HiChevronDown
-          className={`w-4 h-4 transition-transform duration-200 ${
+          className={`w-3 h-3 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -58,24 +57,25 @@ export function ModelSelector({
               <button
                 key={model.id}
                 onClick={() => handleModelSelect(model.id)}
-                className="w-full p-3 text-left hover:bg-accent transition-colors flex items-center justify-between"
+                className={`w-full p-3 text-left hover:bg-accent transition-colors ${
+                  selectedModelId === model.id
+                    ? "bg-accent/50 border-l-2 border-l-primary"
+                    : ""
+                }`}
               >
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-sm">{model.name}</span>
+                    <span className="font-medium text-xs">{model.name}</span>
                     {model.isFree && (
-                      <span className="px-2 py-0.5 bg-success/20 text-success text-xs rounded-full">
+                      <span className="px-1.5 bg-success/20 text-success text-xxxs rounded-full">
                         Free
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xxxs text-muted-foreground">
                     {model.description}
                   </div>
                 </div>
-                {selectedModelId === model.id && (
-                  <HiCheckCircle className="w-4 h-4 text-primary" />
-                )}
               </button>
             ))}
           </div>

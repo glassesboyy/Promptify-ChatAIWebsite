@@ -33,7 +33,7 @@ export function Sidebar({
       {/* Header */}
       <div className="p-6 border-b border-sidebar-border">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl font-bold gradient-text">Promptify</h1>
+          <h1 className="text-4xl font-bold text-primary">Promptify</h1>
           <ThemeToggle />
         </div>
         <button

@@ -1,23 +1,35 @@
 "use client";
 
 import { CopyButton } from "@/components/ui/copy-button";
+import { parseReasoningResponse } from "@/lib/reasoning-parser";
 import { formatTextWithBold, sanitizeHtml } from "@/lib/text-formatter";
 import { Message } from "@/types/chat";
 import { useEffect, useState } from "react";
-import { HiUser } from "react-icons/hi2";
+import { HiCog6Tooth, HiEye, HiEyeSlash, HiUser } from "react-icons/hi2";
 
 interface MessageBubbleProps {
   message: Message;
+  modelId?: string;
 }
 
-export function MessageBubble({ message }: MessageBubbleProps) {
+export function MessageBubble({ message, modelId = "" }: MessageBubbleProps) {
   const isUser = message.role === "user";
   const [mounted, setMounted] = useState(false);
+  const [showReasoning, setShowReasoning] = useState(false);
 
-  // Format the message content
-  const formattedContent = isUser
-    ? message.content
-    : sanitizeHtml(formatTextWithBold(message.content));
+  // Parse reasoning only for AI responses
+  const parsedResponse = !isUser
+    ? parseReasoningResponse(message.content, modelId)
+    : { hasReasoning: false, answer: message.content };
+
+  // Format the content
+  const formattedAnswer = isUser
+    ? parsedResponse.answer
+    : sanitizeHtml(formatTextWithBold(parsedResponse.answer));
+
+  const formattedReasoning = parsedResponse.reasoning
+    ? sanitizeHtml(formatTextWithBold(parsedResponse.reasoning))
+    : "";
 
   useEffect(() => {
     setMounted(true);
@@ -83,7 +95,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         });
       };
     }
-  }, [isUser, mounted, formattedContent]);
+  }, [isUser, mounted, formattedAnswer, formattedReasoning]);
 
   return (
     <div
@@ -105,24 +117,66 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         )}
 
         <div className={`flex-1 min-w-0 ${isUser ? "order-1" : ""}`}>
+          {/* Show reasoning toggle for AI responses with reasoning */}
+          {!isUser && parsedResponse.hasReasoning && (
+            <div className="mb-2">
+              <button
+                onClick={() => setShowReasoning(!showReasoning)}
+                className="inline-flex items-center gap-2 px-3 py-1.5 text-xs bg-info/10 hover:bg-info/20 text-info border border-info/30 rounded-lg transition-colors duration-200"
+              >
+                <HiCog6Tooth className="w-3 h-3" />
+                {showReasoning ? (
+                  <>
+                    <HiEyeSlash className="w-3 h-3" />
+                    Hide Reasoning
+                  </>
+                ) : (
+                  <>
+                    <HiEye className="w-3 h-3" />
+                    Show Reasoning
+                  </>
+                )}
+              </button>
+            </div>
+          )}
+
+          {/* Reasoning section */}
+          {!isUser && parsedResponse.hasReasoning && showReasoning && (
+            <div className="mb-3 p-3 rounded-xl bg-info/5 border border-info/20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="text-xs font-medium text-info flex items-center gap-1">
+                  <HiCog6Tooth className="w-3 h-3" />
+                  AI Reasoning Process
+                </div>
+                <CopyButton
+                  text={parsedResponse.reasoning || ""}
+                  className="opacity-60 hover:opacity-100 flex-shrink-0"
+                />
+              </div>
+              <div
+                className="text-sm text-muted-foreground formatted-content overflow-hidden"
+                dangerouslySetInnerHTML={{ __html: formattedReasoning }}
+              />
+            </div>
+          )}
+
+          {/* Main answer */}
           <div
             className={`p-4 rounded-2xl message-shadow transition-all duration-200 break-words ${
               isUser
-                ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-br-md"
-                : "bg-card text-card-foreground border border-border rounded-bl-md"
+                ? "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-tr-md"
+                : "bg-card text-card-foreground border border-border rounded-tl-md"
             }`}
           >
             <div className="flex items-center justify-between mb-2">
               <div
-                className={`text-xs font-medium opacity-70 ${
-                  isUser ? "" : "text-primary"
-                }`}
+                className={`text-lg font-bold ${isUser ? "" : "text-primary"}`}
               >
                 {isUser ? "You" : "AI Assistant"}
               </div>
               {!isUser && (
                 <CopyButton
-                  text={message.content}
+                  text={parsedResponse.answer}
                   className="opacity-60 hover:opacity-100 flex-shrink-0"
                 />
               )}
@@ -131,12 +185,12 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             <div className="break-words leading-relaxed overflow-hidden">
               {isUser ? (
                 <div className="whitespace-pre-wrap word-break">
-                  {message.content}
+                  {parsedResponse.answer}
                 </div>
               ) : (
                 <div
                   className="formatted-content overflow-hidden"
-                  dangerouslySetInnerHTML={{ __html: formattedContent }}
+                  dangerouslySetInnerHTML={{ __html: formattedAnswer }}
                 />
               )}
             </div>

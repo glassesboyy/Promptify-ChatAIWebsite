@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { Message, ChatMessage } from "@/types/chat";
-import { MessageBubble } from "./message-bubble";
+import { getModelById } from "@/lib/models";
+import { ChatMessage, Message } from "@/types/chat";
+import { useEffect, useRef, useState } from "react";
+import { HiChatBubbleBottomCenter, HiTrash } from "react-icons/hi2";
 import { ChatInput } from "./chat-input";
 import { LoadingIndicator } from "./loading-indicator";
-import { getModelById } from "@/lib/models";
-import { HiTrash, HiChatBubbleBottomCenter } from "react-icons/hi2";
+import { MessageBubble } from "./message-bubble";
 
 interface ChatContainerProps {
   selectedModelId: string;
@@ -95,8 +95,8 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
       <div className="border-b border-border bg-card/30 backdrop-blur-sm px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between max-w-chat mx-auto">
           <div className="min-w-0 flex-1">
-            <h1 className="text-lg sm:text-xl font-bold gradient-text truncate">
-              AI Chat Assistant
+            <h1 className="text-lg sm:text-xl font-bold text-primary truncate">
+              Promptify | Smart AI Chat via OpenRouter API
             </h1>
             <p className="text-xs sm:text-sm text-muted-foreground truncate">
               Currently using:{" "}
@@ -121,10 +121,10 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
         <div className="max-w-chat mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full">
           {messages.length === 0 && (
             <div className="text-center py-12 sm:py-16 animate-fade-in">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
                 <HiChatBubbleBottomCenter className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold gradient-text mb-3">
+              <h2 className="text-xl sm:text-3xl font-bold text-primary mb-3">
                 Welcome to Promptify!
               </h2>
               <p className="text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto text-sm sm:text-base px-4">
@@ -152,7 +152,11 @@ export function ChatContainer({ selectedModelId }: ChatContainerProps) {
 
           <div className="space-y-6">
             {messages.map((message) => (
-              <MessageBubble key={message.id} message={message} />
+              <MessageBubble
+                key={message.id}
+                message={message}
+                modelId={selectedModelId}
+              />
             ))}
           </div>
 
