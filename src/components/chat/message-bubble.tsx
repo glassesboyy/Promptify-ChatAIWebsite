@@ -194,7 +194,9 @@ export function MessageBubble({ message, modelId = "" }: MessageBubbleProps) {
                 />
               )}
             </div>
-            <div className={`text-xs mt-3 opacity-60 text-right flex-shrink-0`}>
+            <div
+              className={`text-xxs mt-1 opacity-60 text-right flex-shrink-0`}
+            >
               {new Date(message.timestamp).toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",

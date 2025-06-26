@@ -32,7 +32,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative inline-flex items-center justify-center w-10 h-10 rounded-lg bg-sidebar-accent hover:bg-sidebar-accent/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group"
+      className="relative inline-flex items-center justify-center w-10 h-10 rounded-lg border border-primary bg-sidebar-accent hover:bg-sidebar-accent/80 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 group"
       aria-label="Toggle theme"
     >
       <div className="relative w-5 h-5">

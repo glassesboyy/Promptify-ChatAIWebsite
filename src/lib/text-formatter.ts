@@ -1,14 +1,14 @@
 export function formatTextWithBold(text: string): string {
-  // Replace **text** with <strong>text</strong> (for double asterisks)
+  // Replace **text** with <strong>text</strong>
   let formatted = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
-  // Replace *text* with <strong>text</strong> (for single asterisks, but not if already inside double asterisks)
+  // Replace *text* with <strong>text</strong>
   formatted = formatted.replace(
     /(?<!\*)\*([^*]+?)\*(?!\*)/g,
     "<strong>$1</strong>"
   );
 
-  // Handle code blocks (```language...code...```)
+  // Handle code blocks
   formatted = formatted.replace(
     /```(\w+)?\n([\s\S]*?)```/g,
     (match, language, code) => {
@@ -34,20 +34,19 @@ export function formatTextWithBold(text: string): string {
     }
   );
 
-  // Handle inline code (`code`)
+  // Handle inline code
   formatted = formatted.replace(
     /`([^`]+)`/g,
     '<code class="inline-code px-1.5 py-0.5 text-sm font-mono bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded">$1</code>'
   );
 
-  // Convert line breaks to <br> tags (but not inside code blocks)
+  // Convert line breaks to <br> tags
   formatted = formatted.replace(/\n/g, "<br>");
 
   return formatted;
 }
 
 export function sanitizeHtml(html: string): string {
-  // Basic sanitization - allow more tags for code formatting
   const allowedTags = [
     "strong",
     "br",

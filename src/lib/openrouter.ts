@@ -1,6 +1,6 @@
 import type { ChatMessage } from "@/types/chat";
-import { getModelById, getDefaultModel } from "./models";
 import OpenAI from "openai";
+import { getDefaultModel, getModelById } from "./models";
 
 export async function sendMessage(
   messages: ChatMessage[],

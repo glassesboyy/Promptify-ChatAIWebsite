@@ -29,10 +29,10 @@ export function ModelSelector({
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-3 bg-sidebar-accent hover:bg-sidebar-accent/80 text-sidebar-accent-foreground rounded-lg transition-colors border border-sidebar-border"
       >
-        <div className="flex items-center gap-2">
-          <HiCpuChip className="w-4 h-4" />
+        <div className="flex items-center gap-1.5">
+          <HiCpuChip className="w-7 h-7" />
           <div className="text-left">
-            <div className="text-xs font-medium">{selectedModel?.name}</div>
+            <div className="text-sm font-bold">{selectedModel?.name}</div>
             <div className="text-xxxs text-muted-foreground">
               {selectedModel?.isFree && "Free"} •{" "}
               {selectedModel?.provider.split("/")[0]}
@@ -67,7 +67,7 @@ export function ModelSelector({
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-medium text-xs">{model.name}</span>
                     {model.isFree && (
-                      <span className="px-1.5 bg-success/20 text-success text-xxxs rounded-full">
+                      <span className="px-1.5 bg-success/20 text-success text-xxxxs rounded-full">
                         Free
                       </span>
                     )}

@@ -123,17 +123,23 @@ export function ChatContainer({
     }
   };
 
+  // Template prompts for quick start
+  const quickPrompts = {
+    ideas: "Can you give me some creative ideas for a new project?",
+    code: "I need help debugging this code or learning best practices. Can you assist?",
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
       <div className="border-b border-border bg-card/30 backdrop-blur-sm px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between max-w-chat mx-auto">
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 space-y-1">
             <h1 className="text-lg sm:text-xl font-bold text-primary truncate">
-              Promptify | Smart AI Chat via OpenRouter API
+              Smart AI Chat via OpenRouter API
             </h1>
-            <p className="text-xs sm:text-sm text-muted-foreground truncate">
-              Currently using:{" "}
+            <p className="text-xs text-muted-foreground truncate">
+              Currently AI Model:{" "}
               <span className="font-medium">{selectedModel?.name}</span>
             </p>
           </div>
@@ -141,10 +147,10 @@ export function ChatContainer({
           <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={clearChat}
-              className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-secondary hover:bg-secondary/80 text-secondary-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
+              className="px-3 sm:px-4 py-2 text-xs sm:text-sm bg-destructive hover:bg-destructive/80 text-destructive-foreground rounded-lg transition-colors duration-200 flex items-center gap-2"
             >
               <HiTrash className="w-4 h-4" />
-              <span className="hidden sm:inline">New Chat</span>
+              <span className="hidden sm:inline">Clear Chat</span>
             </button>
           </div>
         </div>
@@ -168,13 +174,19 @@ export function ChatContainer({
 
               {/* Quick start suggestions */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto px-4">
-                <div className="p-4 border border-border rounded-xl bg-card hover:bg-accent/50 transition-colors cursor-pointer">
+                <div
+                  className="p-4 border border-border rounded-xl bg-card hover:bg-accent/50 transition-colors cursor-pointer"
+                  onClick={() => sendMessage(quickPrompts.ideas)}
+                >
                   <h3 className="font-medium mb-2">💡 Get Ideas</h3>
                   <p className="text-sm text-muted-foreground">
                     Brainstorm creative solutions and innovative concepts
                   </p>
                 </div>
-                <div className="p-4 border border-border rounded-xl bg-card hover:bg-accent/50 transition-colors cursor-pointer">
+                <div
+                  className="p-4 border border-border rounded-xl bg-card hover:bg-accent/50 transition-colors cursor-pointer"
+                  onClick={() => sendMessage(quickPrompts.code)}
+                >
                   <h3 className="font-medium mb-2">🔧 Code Help</h3>
                   <p className="text-sm text-muted-foreground">
                     Debug issues and learn programming best practices
