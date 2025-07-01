@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 export const metadata: Metadata = {
-  title: "Promptify | Smart AI Chat via OpenRouter API",
+  title: "Promptify | Multi Model AI Chat App via OpenRouter API",
   description:
     "Experience powerful AI conversations. Promptify uses OpenRouter's API to deliver responses from top AI models.",
 };

@@ -1,13 +1,12 @@
-# Promptify Chat AI
+# Promptify - Multi Model AI Chat App via OpenRouter API
 
 Promptify is a modern, full-stack AI chat application built with Next.js, React, and Tailwind CSS. It leverages the [OpenRouter API](https://openrouter.ai) to provide access to multiple state-of-the-art AI models for conversational and coding assistance.
 
 ## Features
 
-- **Multi-model AI chat**: Switch between top AI models (DeepSeek, Phi-4, Qwen3, Llama, etc.)
+- **Multi-model AI chat**: Switch between top AI models (DeepSeek, Qwen3, etc.)
 - **Chat session management**: Save, switch, and delete chat histories
 - **Rich message formatting**: Supports markdown, code blocks, and inline code
-- **Reasoning separation**: For models like Phi-4, view the AI's reasoning process separately
 - **Theme toggle**: Light and dark mode support
 - **Quick prompts**: Start conversations with suggested prompts
 - **Clipboard utilities**: Copy code and responses easily
@@ -80,9 +79,7 @@ Set these in your `.env.local` file:
 - `NEXT_PUBLIC_SITE_NAME` - Site name (e.g., Promptify Chat AI)
 - `DEEPSEEK_CHAT_V3_API_KEY` - API key for DeepSeek Chat V3
 - `DEEPSEEK_R1_API_KEY` - API key for DeepSeek R1
-- `PHI_4_API_KEY` - API key for Microsoft Phi-4
 - `QWEN3_API_KEY` - API key for Qwen3
-- `LLAMA_3_3_API_KEY` - API key for Llama 3.3
 
 See `.env.example` for details.
 

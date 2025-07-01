@@ -20,30 +20,12 @@ export const AVAILABLE_MODELS: AIModel[] = [
     isFree: true,
   },
   {
-    id: "phi-4-reasoning-plus",
-    name: "Microsoft Phi-4 Reasoning Plus",
-    description:
-      "Microsoft's advanced reasoning model with enhanced logical thinking",
-    provider: "microsoft/phi-4-reasoning-plus:free",
-    apiKey: process.env.PHI_4_API_KEY || "",
-    isFree: true,
-  },
-  {
     id: "qwen3-235b-a22b",
     name: "Qwen3 235B A22B",
     description:
       "Large-scale language model with exceptional performance and understanding",
     provider: "qwen/qwen3-235b-a22b:free",
     apiKey: process.env.QWEN3_API_KEY || "",
-    isFree: true,
-  },
-  {
-    id: "llama-3.3-8b-instruct",
-    name: "Llama 3.3 8B Instruct",
-    description:
-      "Meta's instruction-tuned model with excellent following capabilities",
-    provider: "meta-llama/llama-3.3-8b-instruct:free",
-    apiKey: process.env.LLAMA_3_3_API_KEY || "",
     isFree: true,
   },
 ];
