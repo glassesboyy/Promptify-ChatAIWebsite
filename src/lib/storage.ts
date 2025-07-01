@@ -1,4 +1,4 @@
-import type { ChatSession } from "@/types/chat";
+import type { ChatMessage, ChatSession } from "@/types/chat";
 
 const STORAGE_KEYS = {
   CHAT_SESSIONS: "promptify_chat_sessions",
@@ -15,15 +15,25 @@ export class ChatStorage {
       const parsed = sessions ? JSON.parse(sessions) : [];
 
       // Convert date strings back to Date objects
-      return parsed.map((session: any) => ({
-        ...session,
-        createdAt: new Date(session.createdAt),
-        updatedAt: new Date(session.updatedAt),
-        messages: session.messages.map((msg: any) => ({
-          ...msg,
-          timestamp: new Date(msg.timestamp),
-        })),
-      }));
+      return parsed.map(
+        (
+          session: Omit<ChatSession, "createdAt" | "updatedAt" | "messages"> & {
+            createdAt: string;
+            updatedAt: string;
+            messages: (Omit<ChatMessage, "timestamp"> & {
+              timestamp: string;
+            })[];
+          }
+        ) => ({
+          ...session,
+          createdAt: new Date(session.createdAt),
+          updatedAt: new Date(session.updatedAt),
+          messages: session.messages.map((msg) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp),
+          })),
+        })
+      );
     } catch (error) {
       console.error("Error loading chat sessions:", error);
       return [];

@@ -3,7 +3,7 @@
 import { useChatSessions } from "@/hooks/use-chat-sessions";
 import { getModelById } from "@/lib/models";
 import { ChatMessage, Message } from "@/types/chat";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HiBars3, HiChatBubbleBottomCenter, HiTrash } from "react-icons/hi2";
 import { ChatInput } from "./chat-input";
 import { LoadingIndicator } from "./loading-indicator";
@@ -24,18 +24,19 @@ export function ChatContainer({
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const {
-    sessions,
     currentSessionId,
     isLoaded,
     createSession,
     addMessageToSession,
     getCurrentSession,
-    clearAllSessions,
   } = useChatSessions();
 
   const selectedModel = getModelById(selectedModelId);
   const currentSession = getCurrentSession();
-  const messages = currentSession?.messages || [];
+  const messages = useMemo(
+    () => currentSession?.messages || [],
+    [currentSession]
+  );
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -120,6 +121,7 @@ export function ChatContainer({
   const clearChat = () => {
     if (currentSessionId) {
       // Create new session instead of clearing current one
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const newSession = createSession(selectedModelId);
       onNewChat?.();
     }

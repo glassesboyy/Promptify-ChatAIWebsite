@@ -12,6 +12,7 @@ interface ChatInputProps {
 export function ChatInput({
   onSendMessage,
   isLoading,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   disabled = false,
 }: ChatInputProps) {
   const [input, setInput] = useState("");

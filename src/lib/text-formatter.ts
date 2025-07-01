@@ -59,22 +59,6 @@ export function sanitizeHtml(html: string): string {
     "rect",
     "path",
   ];
-  const allowedAttributes = [
-    "class",
-    "data-language",
-    "data-code",
-    "width",
-    "height",
-    "viewBox",
-    "fill",
-    "stroke",
-    "stroke-width",
-    "x",
-    "y",
-    "rx",
-    "ry",
-    "d",
-  ];
 
   const tagRegex = /<\/?([a-zA-Z][a-zA-Z0-9]*)\b[^>]*>/g;
 
