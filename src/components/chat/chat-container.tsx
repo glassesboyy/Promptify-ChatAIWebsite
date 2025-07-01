@@ -4,7 +4,7 @@ import { useChatSessions } from "@/hooks/use-chat-sessions";
 import { getModelById } from "@/lib/models";
 import { ChatMessage, Message } from "@/types/chat";
 import { useEffect, useRef, useState } from "react";
-import { HiChatBubbleBottomCenter, HiTrash } from "react-icons/hi2";
+import { HiBars3, HiChatBubbleBottomCenter, HiTrash } from "react-icons/hi2";
 import { ChatInput } from "./chat-input";
 import { LoadingIndicator } from "./loading-indicator";
 import { MessageBubble } from "./message-bubble";
@@ -12,11 +12,13 @@ import { MessageBubble } from "./message-bubble";
 interface ChatContainerProps {
   selectedModelId: string;
   onNewChat?: () => void;
+  onOpenSidebar?: () => void; // Tambah prop baru
 }
 
 export function ChatContainer({
   selectedModelId,
   onNewChat,
+  onOpenSidebar,
 }: ChatContainerProps) {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -134,6 +136,15 @@ export function ChatContainer({
       {/* Header */}
       <div className="border-b border-border bg-card/30 backdrop-blur-sm px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between max-w-chat mx-auto">
+          {/* Hamburger button for mobile */}
+          <button
+            className="mr-3 lg:hidden bg-primary text-primary-foreground rounded-lg p-2 shadow-lg"
+            onClick={onOpenSidebar}
+            aria-label="Open sidebar"
+            type="button"
+          >
+            <HiBars3 className="w-6 h-6" />
+          </button>
           <div className="min-w-0 flex-1 space-y-1">
             <h1 className="text-lg sm:text-xl font-bold text-primary truncate">
               Smart AI Chat via OpenRouter API

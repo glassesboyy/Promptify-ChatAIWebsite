@@ -10,12 +10,16 @@ interface SidebarProps {
   onNewChat?: () => void;
   selectedModelId: string;
   onModelChange: (modelId: string) => void;
+  open?: boolean; // Tambah
+  onClose?: () => void; // Tambah
 }
 
 export function Sidebar({
   onNewChat,
   selectedModelId,
   onModelChange,
+  open = false,
+  onClose,
 }: SidebarProps) {
   const {
     sessions,
@@ -58,10 +62,11 @@ export function Sidebar({
     return sessionDate.toLocaleDateString();
   };
 
-  return (
-    <div className="w-72 h-screen bg-sidebar border-r border-sidebar-border flex flex-col">
+  // Sidebar content
+  const sidebarContent = (
+    <div className="w-72 h-full bg-sidebar border-r border-sidebar-border flex flex-col">
       {/* Header */}
-      <div className="p-6 border-b border-sidebar-border">
+      <div className="p-6 border-b border-sidebar-border relative">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-4xl font-bold text-primary">Promptify</h1>
           <ThemeToggle />
@@ -210,5 +215,37 @@ export function Sidebar({
         </div>
       )}
     </div>
+  );
+
+  return (
+    <>
+      {/* Sidebar overlay for mobile */}
+      <div
+        className={`
+          fixed inset-0 z-50 bg-black/40 transition-opacity duration-300
+          ${
+            open
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }
+          lg:hidden
+        `}
+        onClick={onClose}
+        aria-hidden={!open}
+      >
+        <div
+          className={`
+            absolute left-0 top-0 h-full transition-transform duration-300
+            ${open ? "translate-x-0" : "-translate-x-full"}
+            w-72
+          `}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {sidebarContent}
+        </div>
+      </div>
+      {/* Sidebar static for desktop */}
+      <div className="hidden lg:block h-screen">{sidebarContent}</div>
+    </>
   );
 }
