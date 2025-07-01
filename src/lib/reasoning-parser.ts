@@ -6,6 +6,7 @@ export interface ParsedResponse {
 
 export function parseReasoningResponse(
   content: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   modelId: string
 ): ParsedResponse {
   // Reasoning separation only for Phi-4, which is now removed.
